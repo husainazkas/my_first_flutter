@@ -68,7 +68,9 @@ class LoginState extends State<Login> {
               child: Card(
                 child: Container(
                   child: InkWell(
-                    onTap: () => Register(),
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                      builder: (context) => Register()
+                    )),
                     child: Center(
                       child: Text("Don't have an account? Sign Up.", style: TextStyle(fontSize: 14, color: Colors.black54),),
                     ),
