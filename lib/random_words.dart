@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:myfirstflutter/register.dart';
 
 class RandomWords extends StatefulWidget {
+
+  //final
+
   @override
   RandomWordsState createState() => RandomWordsState();
 }
@@ -14,7 +18,26 @@ class RandomWordsState extends State<RandomWords> {
       appBar: AppBar(
         title: Text('Startup Name Generator'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.list), onPressed: _pushSaved),
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem(
+                  child: InkWell(
+                    onTap: () => _pushSaved(),
+                    child: Text("Bookmark"),
+                  ),
+                ),
+                PopupMenuItem(
+                  child: InkWell(
+                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) => Register()
+                    )),
+                    child: Text("Sign Out"),
+                  ),
+                )
+              ];
+            },
+          ),
         ],
       ),
       body: _buildSuggestions(),
