@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myfirstflutter/random_words.dart';
-import 'package:myfirstflutter/register.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,10 +7,13 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
 
+  String email = 'name@email.com';
+  String pass = '111111';
+
   final GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
 
-  TextEditingController email = new TextEditingController();
-  TextEditingController pass = new TextEditingController();
+  TextEditingController emailInput = new TextEditingController();
+  TextEditingController passInput = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +26,25 @@ class LoginState extends State<Login> {
           child: Column(
             children: <Widget>[
 
+              Container(
+                  padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                  child: Text("Login to your account", style: TextStyle(fontSize: 25),)
+              ),
+
+              Container(
+                  padding: EdgeInsets.fromLTRB(0, 2, 0, 0),
+                  child: Text("Learning Management System", style: TextStyle(fontSize: 12, color: Colors.black45),)
+              ),
+
               Form(
                 key: _loginKey,
                 child: Column(
                   children: <Widget>[
 
                     Container(
+                      padding: EdgeInsets.fromLTRB(0, 25, 0, 0),
                       child: TextFormField(
-                        controller: email,
+                        controller: emailInput,
                         validator: (value) {
                           if (value.isEmpty) {
                             return "Invalid email address";
@@ -51,7 +63,7 @@ class LoginState extends State<Login> {
                     Container(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: TextFormField(
-                        controller: pass,
+                        controller: passInput,
                         obscureText: true,
                         validator: (value) {
                           if (value.isEmpty) {
@@ -89,9 +101,7 @@ class LoginState extends State<Login> {
 
               Container(
                 child: FlatButton(
-                  onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => Register()
-                  )),
+                  onPressed: () => Navigator.of(context).pop('/register'),
                   child: Text("Don't have an account? Sign Up.", style: TextStyle(fontSize: 14, color: Colors.black54),),
                 ),
               ),
@@ -104,9 +114,11 @@ class LoginState extends State<Login> {
 
   void loginProceed() {
     if (_loginKey.currentState.validate()) {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => RandomWords(),
-      ));
+      if (emailInput.text == email && passInput.text == pass) {
+        Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+      } else {
+        print("Invalid email or password");
+      }
     } else {
       print("Login failed");
     }

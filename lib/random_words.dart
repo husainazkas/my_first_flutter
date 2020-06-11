@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
-import 'package:myfirstflutter/register.dart';
 
 class RandomWords extends StatefulWidget {
 
@@ -29,9 +28,7 @@ class RandomWordsState extends State<RandomWords> {
                 ),
                 PopupMenuItem(
                   child: InkWell(
-                    onTap: () => Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => Register()
-                    )),
+                    onTap: () => Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false),
                     child: Text("Sign Out"),
                   ),
                 )

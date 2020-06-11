@@ -1,23 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myfirstflutter/random_words.dart';
-import 'package:myfirstflutter/login.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to My First Flutter',
-      theme: ThemeData(
-        primaryColor: Color.fromARGB(255, 238, 0, 0),
-        accentColor: Color.fromARGB(255, 172, 0, 0),
-      ),
-      home: Register(),
-    );
-  }
-}
 
 class Register extends StatefulWidget {
   @override
@@ -185,7 +167,7 @@ class RegisterState extends State<Register> {
 
               Container(
                 child: FlatButton(
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => Login())),
+                  onPressed: () => Navigator.pushNamed(context, '/login'),
                   child: Text("Already have an account? Sign in.", style: TextStyle(fontSize: 14, color: Colors.black54),)
                 ),
               ),
@@ -198,9 +180,7 @@ class RegisterState extends State<Register> {
 
   void registerProceed() {
     if (_registerKey.currentState.validate()) {
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => RandomWords()
-      ));
+      Navigator.pushReplacementNamed(context, '/home');
     } else {
       print('Please re-check the form');
     }
