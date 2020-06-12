@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myfirstflutter/random_words.dart';
 import 'package:myfirstflutter/login.dart';
 import 'package:myfirstflutter/register.dart';
+import 'screens/authenticate/sign_in.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color.fromARGB(255, 238, 0, 0),
         accentColor: Color.fromARGB(255, 172, 0, 0),
       ),
-      home: Register(),
+      home: SignIn(),
       routes: <String, WidgetBuilder> {
         '/register' : (BuildContext context) => Register(),
         '/login' : (BuildContext context) => Login(),
