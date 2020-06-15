@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myfirstflutter/random_words.dart';
-import 'package:myfirstflutter/login.dart';
-import 'package:myfirstflutter/register.dart';
-import 'screens/authenticate/sign_in.dart';
+import 'package:myfirstflutter/pages/welcome.dart';
+import 'package:myfirstflutter/pages/random_words.dart';
+import 'package:myfirstflutter/pages/setup/login.dart';
+import 'package:myfirstflutter/pages/setup/register.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,16 +10,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Welcome to My First Flutter',
+      title: 'My First Flutter',
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 238, 0, 0),
         accentColor: Color.fromARGB(255, 172, 0, 0),
       ),
-      home: SignIn(),
+      home: RandomWords(),
       routes: <String, WidgetBuilder> {
         '/register' : (BuildContext context) => Register(),
         '/login' : (BuildContext context) => Login(),
-        '/home' : (BuildContext context) => RandomWords(),
+        '/welcome' : (BuildContext context) => Welcome(),
+        '/random-words' : (BuildContext context) => RandomWords(),
       },
     );
   }

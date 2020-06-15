@@ -1,16 +1,38 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:myfirstflutter/backends/popup_constants.dart';
 
 class RandomWords extends StatefulWidget {
-
-  //final
+  const RandomWords({Key key, this.user}) : super(key: key);
+  final FirebaseUser user;
 
   @override
   RandomWordsState createState() => RandomWordsState();
 }
 
 class RandomWordsState extends State<RandomWords> {
+
+  final _suggestions = <WordPair>[];
+  final _saved = Set<WordPair>();
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseAuth.instance.onAuthStateChanged.listen(
+            (status) {
+              if (status == null) {
+                Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (Route<dynamic> route) => false);
+              } else {
+                return;
+              }
+            }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,27 +40,28 @@ class RandomWordsState extends State<RandomWords> {
         title: Text('Startup Name Generator'),
         actions: <Widget>[
           PopupMenuButton(
+            onSelected: event,
             itemBuilder: (BuildContext context) {
-              return [
-                PopupMenuItem(
-                  child: InkWell(
-                    onTap: () => _pushSaved(),
-                    child: Text("Bookmark"),
-                  ),
-                ),
-                PopupMenuItem(
-                  child: InkWell(
-                    onTap: () => Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false),
-                    child: Text("Sign Out"),
-                  ),
-                )
-              ];
+              return Constants.choises.map((String choice) {
+                return PopupMenuItem(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
             },
           ),
         ],
       ),
       body: _buildSuggestions(),
     );
+  }
+
+  void event(String choice) {
+    if (choice == Constants.Bookmark) {
+      return _pushSaved();
+    } else if (choice == Constants.SignOut) {
+      return signOut();
+    }
   }
 
   void _pushSaved(){
@@ -69,9 +92,14 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-  final _suggestions = <WordPair>[];
-  final _saved = Set<WordPair>();
-  final _biggerFont = const TextStyle(fontSize: 18.0);
+  void signOut() {
+    FirebaseAuth.instance.signOut().then(
+            (value) {
+              print('Signed out, going back to Main.');
+              Navigator.of(context).pushNamedAndRemoveUntil('/main', (Route<dynamic> route) => false);
+            }
+    );
+  }
 
   Widget _buildSuggestions() {
     return ListView.builder(
