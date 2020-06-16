@@ -60,7 +60,7 @@ class RandomWordsState extends State<RandomWords> {
     if (choice == Constants.Bookmark) {
       return _pushSaved();
     } else if (choice == Constants.SignOut) {
-      return signOut();
+      return _signOut();
     }
   }
 
@@ -92,7 +92,7 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-  void signOut() {
+  void _signOut() {
     FirebaseAuth.instance.signOut().then(
             (value) {
               print('Signed out, going back to Main.');

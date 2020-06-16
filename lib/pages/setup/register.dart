@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,7 @@ class Register extends StatefulWidget {
 
 class RegisterState extends State<Register> {
 
-  String _email, _pass, _fullname, _username, _country;
+  static String _email, _pass, _fullname, _username, _country;
   final GlobalKey<FormState> _registerKey = GlobalKey<FormState>();
 
   TextEditingController fullname = new TextEditingController();
@@ -17,6 +18,13 @@ class RegisterState extends State<Register> {
   TextEditingController email = new TextEditingController();
   TextEditingController pass = new TextEditingController();
   TextEditingController country = new TextEditingController();
+
+  var data = <String, dynamic> {
+    'Fullname' : _fullname.toString(),
+    'Username' : _username.toString(),
+    'Email' : _email.toString(),
+    'Country' : _country.toString(),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +162,7 @@ class RegisterState extends State<Register> {
                         height: 40,
                         child: InkWell(
                           splashColor: Color.fromARGB(255, 172, 0, 0),
-                          onTap: () => registerProceed(),
+                          onTap: () => _registerProceed(),
                           child: Center(
                             child: Text("SIGN UP", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white,)),
                           ),
@@ -178,7 +186,7 @@ class RegisterState extends State<Register> {
     );
   }
 
-  Future<void> registerProceed() async {
+  Future<void> _registerProceed() async {
     final registerState = _registerKey.currentState;
     if (registerState.validate()) {
       registerState.save();
@@ -186,12 +194,25 @@ class RegisterState extends State<Register> {
         AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _pass);
         print('Account has been created and email verification has sent, redirecting to home..');
         result.user.sendEmailVerification();
-        Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false);
+        return _sendDataToDatabase(result.user.uid);
       } catch (e) {
         print(e.message);
       }
     } else {
       print('Please re-check the form');
     }
+  }
+
+  Future<void> _sendDataToDatabase(String uid) async {
+    FirebaseDatabase dbCached = FirebaseDatabase.instance;
+    dbCached.setPersistenceEnabled(true);
+    dbCached.setPersistenceCacheSizeBytes(10000000);
+
+    final dbRef = FirebaseDatabase.instance.reference().child('/users/$uid');
+    dbRef.push().set(data).then((db) {
+      print('Send to database success');
+      Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false);
+    });
+    //
   }
 }
