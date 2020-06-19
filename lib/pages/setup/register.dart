@@ -91,7 +91,9 @@ class RegisterState extends State<Register> {
                           },
                           textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             focusedErrorBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Color.fromARGB(255, 238, 0, 0))
                             ),
@@ -113,7 +115,9 @@ class RegisterState extends State<Register> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             prefixIcon: Icon(Icons.person_outline, size: 20,),
                             hintText: "example123",
                             labelText: "Username",
@@ -133,7 +137,9 @@ class RegisterState extends State<Register> {
                           },
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             prefixIcon: Icon(Icons.email, size: 20,),
                             hintText: "youremail@example.com",
                             labelText: "Email",
@@ -155,7 +161,9 @@ class RegisterState extends State<Register> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             prefixIcon: Icon(Icons.lock, size: 20,),
                             labelText: "Password",
                           ),
@@ -174,7 +182,9 @@ class RegisterState extends State<Register> {
                           },
                           textCapitalization: TextCapitalization.sentences,
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             prefixIcon: Icon(Icons.location_on, size: 20,),
                             hintText: "Indonesia",
                             labelText: "Select your country",
@@ -183,18 +193,16 @@ class RegisterState extends State<Register> {
 
                         SizedBox(height: 20,),
 
-                        Card(
+                        RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18)
+                          ),
+                          splashColor: Colors.deepOrange,
                           color: Color.fromARGB(255, 238, 0, 0),
                           elevation: 5,
-                          child: Container(
-                            height: 40,
-                            child: InkWell(
-                              splashColor: Colors.deepOrange,
-                              onTap: () => _registerProceed(),
-                              child: Center(
-                                child: Text("SIGN UP", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white,)),
-                              ),
-                            ),
+                          onPressed: () => _registerProceed(),
+                          child: Center(
+                            child: Text("SIGN UP", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white,)),
                           ),
                         ),
                       ],
@@ -202,6 +210,9 @@ class RegisterState extends State<Register> {
                   ),
 
                   FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18)
+                      ),
                     onPressed: () => Navigator.of(context).pop('/login'),
                     child: Text("Already have an account? Sign in.", style: TextStyle(fontSize: 14, color: Colors.black54),)
                   ),
