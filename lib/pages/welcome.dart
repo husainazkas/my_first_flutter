@@ -23,9 +23,7 @@ class _WelcomeState extends State<Welcome> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   children: <Widget>[
-                    Image(
-                      image: AssetImage('assets/logo_edx.png'),
-                    ),
+                    Image.asset('assets/logo_edx.png'),
                     Text('Learning Management System', style: TextStyle(fontSize: 22),),
                     SizedBox(height: 40,),
                     TextFormField(
@@ -49,39 +47,73 @@ class _WelcomeState extends State<Welcome> {
 
               SizedBox(height: 200,),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18)
-                      ),
-                      splashColor: Colors.deepOrange,
-                      color: Color.fromARGB(255, 238, 0, 0),
-                      elevation: 5,
-                      onPressed: () => Navigator.of(context).pushNamed('/register'),
-                      child: Center(
-                        child: Text('Create an account', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
-                      ),
-                    ),
-                    SizedBox(width: 5,),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18)
-                      ),
-                      splashColor: Colors.deepOrange,
-                      color: Color.fromARGB(255, 238, 0, 0),
-                      elevation: 5,
-                      onPressed: () => Navigator.of(context).pushNamed('/login'),
-                      child: Center(
-                        child: Text('Login', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
-                      ),
-                    ),
-                  ],
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18)
+                ),
+                splashColor: Colors.deepOrange,
+                color: Color.fromARGB(255, 238, 0, 0),
+                elevation: 5,
+                onPressed: () => Navigator.of(context).pushNamed('/login'),
+                child: Center(
+                  child: Text('Get into your account', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
                 ),
               ),
+
+              SizedBox(height: 10,),
+
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey
+                      )
+                    ),
+                    height: 1,
+                  ),
+
+                  Text('Sign in with', style: TextStyle(fontSize: 16),),
+
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey
+                        )
+                    ),
+                    height: 1,
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 10,),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset('assets/google-logo.png', width: 14, height: 14,),
+                          SizedBox(width: 4,),
+                          Text('Google', style: TextStyle(fontSize: 14),)
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  /*Container(
+                    child: Image(
+                      image: AssetImage('assets/'),
+                    ),
+                  )*/
+                ],
+              )
             ],
           ),
         ),

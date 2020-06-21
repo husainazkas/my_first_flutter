@@ -213,7 +213,7 @@ class RegisterState extends State<Register> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18)
                       ),
-                    onPressed: () => Navigator.of(context).pop('/login'),
+                    onPressed: () => Navigator.of(context).pop(),
                     child: Text("Already have an account? Sign in.", style: TextStyle(fontSize: 14, color: Colors.black54),)
                   ),
                 ],
