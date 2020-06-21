@@ -85,7 +85,9 @@ class LoginState extends State<Login> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             prefixIcon: Icon(Icons.email, size: 20,),
                             labelText: "Email",
                           ),
@@ -104,7 +106,9 @@ class LoginState extends State<Login> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
                             prefixIcon: Icon(Icons.lock, size: 20,),
                             labelText: "Password",
                           ),
@@ -115,25 +119,25 @@ class LoginState extends State<Login> {
                     ),
                   ),
 
-                  Card(
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18)
+                    ),
+                    splashColor: Colors.deepOrange,
                     color: Color.fromARGB(255, 238, 0, 0),
-                    child: Container(
-                      height: 40,
-                      child: InkWell(
-                          splashColor: Colors.deepOrange,
-                          onTap: () => loginProceed(),
-                          child: Center(
-                            child: Text("LOGIN", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),),
-                          )
-                      ),
+                    elevation: 5,
+                    onPressed: () => _loginProceed(),
+                    child: Center(
+                      child: Text("LOGIN", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 16),),
                     ),
                   ),
 
-                  Container(
-                    child: FlatButton(
-                      onPressed: () => Navigator.pushNamed(context, '/register'),
-                      child: Text("Don't have an account? Sign Up.", style: TextStyle(fontSize: 14, color: Colors.black54),),
+                  FlatButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18)
                     ),
+                    onPressed: () => Navigator.pushNamed(context, '/register'),
+                    child: Text("Don't have an account? Sign Up.", style: TextStyle(fontSize: 14, color: Colors.black54),),
                   ),
                 ],
               ),
@@ -144,7 +148,7 @@ class LoginState extends State<Login> {
     );
   }
 
-  Future<void> loginProceed() async {
+  Future<void> _loginProceed() async {
     final loginState = _loginKey.currentState;
     if (loginState.validate()) {
       loginState.save();
