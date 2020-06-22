@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstflutter/backends/google_sign_in.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -7,7 +8,6 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-
   String _search;
 
   @override
@@ -20,7 +20,7 @@ class _WelcomeState extends State<Welcome> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: const EdgeInsets.symmetric(vertical: 0),
                 child: Column(
                   children: <Widget>[
                     Image.asset('assets/logo_edx.png'),
@@ -45,8 +45,6 @@ class _WelcomeState extends State<Welcome> {
                 ),
               ),
 
-              SizedBox(height: 200,),
-
               RaisedButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(18)
@@ -56,7 +54,20 @@ class _WelcomeState extends State<Welcome> {
                 elevation: 5,
                 onPressed: () => Navigator.of(context).pushNamed('/login'),
                 child: Center(
-                  child: Text('Get into your account', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),),
+                  child: Text('Login', style: TextStyle(fontSize: 18, color: Colors.white),),
+                ),
+              ),
+
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18)
+                ),
+                //splashColor: Colors.deepOrange,
+                color: Colors.deepOrange,
+                elevation: 5,
+                onPressed: () => Navigator.of(context).pushNamed('/register'),
+                child: Center(
+                  child: Text('Register', style: TextStyle(fontSize: 18, color: Colors.white),),
                 ),
               ),
 
@@ -64,56 +75,84 @@ class _WelcomeState extends State<Welcome> {
 
               Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey
-                      )
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(
+                        thickness: 1,
+                      ),
                     ),
-                    height: 1,
                   ),
-
-                  Text('Sign in with', style: TextStyle(fontSize: 16),),
-
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey
-                        )
+                  Text('Quick login with', style: TextStyle(fontSize: 16),),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(
+                        thickness: 1,
+                      ),
                     ),
-                    height: 1,
                   ),
                 ],
               ),
 
               SizedBox(height: 10,),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  RaisedButton(
-                    onPressed: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
 
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset('assets/google-logo.png', width: 14, height: 14,),
-                          SizedBox(width: 4,),
-                          Text('Google', style: TextStyle(fontSize: 14),)
-                        ],
-                      ),
+                  RaisedButton(
+                    onPressed: () => googleSignIn,
+                    color: Colors.white,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/google-logo.png', width: 14, height: 14,),
+                        SizedBox(width: 8,),
+                        Text('Google', style: TextStyle(fontSize: 14),)
+                      ],
                     ),
                   ),
 
-                  /*Container(
-                    child: Image(
-                      image: AssetImage('assets/'),
+                  RaisedButton(
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(18))
                     ),
-                  )*/
+                    color: Color.fromARGB(255, 59, 89, 152,),
+                    elevation: 5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/facebook-logo-white.png', width: 12, height: 12,),
+                        SizedBox(width: 8,),
+                        Text('Facebook', style: TextStyle(fontSize: 14, color: Colors.white),)
+                      ],
+                    ),
+                  ),
+
+                  RaisedButton(
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(18))
+                    ),
+                    color: Color.fromARGB(255, 0, 172, 238,),
+                    elevation: 5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/twitter-logo-white.png', width: 14, height: 14,),
+                        SizedBox(width: 8,),
+                        Text('Twitter', style: TextStyle(fontSize: 14, color: Colors.white),)
+                      ],
+                    ),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

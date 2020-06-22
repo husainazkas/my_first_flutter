@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstflutter/backends/google_sign_in.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -213,8 +214,91 @@ class RegisterState extends State<Register> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18)
                       ),
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text("Already have an account? Sign in.", style: TextStyle(fontSize: 14, color: Colors.black54),)
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text("Already have an account? Sign in.", style: TextStyle(fontSize: 14, color: Colors.black54),)
+                  ),
+
+                  SizedBox(height: 10,),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Divider(
+                            thickness: 1,
+                          ),
+                        ),
+                      ),
+                      Text('or', style: TextStyle(fontSize: 16),),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Divider(
+                            thickness: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 10,),
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+
+                      RaisedButton(
+                        onPressed: () => googleSignIn,
+                        color: Colors.white,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(18)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/google-logo.png', width: 14, height: 14,),
+                            SizedBox(width: 8,),
+                            Text('Sign Up with Google', style: TextStyle(fontSize: 14),)
+                          ],
+                        ),
+                      ),
+
+                      RaisedButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(18))
+                        ),
+                        color: Color.fromARGB(255, 59, 89, 152,),
+                        elevation: 5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/facebook-logo-white.png', width: 12, height: 12,),
+                            SizedBox(width: 8,),
+                            Text('Sign Up with Facebook', style: TextStyle(fontSize: 14, color: Colors.white),)
+                          ],
+                        ),
+                      ),
+
+                      RaisedButton(
+                        onPressed: () {},
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(18))
+                        ),
+                        color: Color.fromARGB(255, 0, 172, 238,),
+                        elevation: 5,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset('assets/twitter-logo-white.png', width: 14, height: 14,),
+                            SizedBox(width: 8,),
+                            Text('Sign Up with Twitter', style: TextStyle(fontSize: 14, color: Colors.white),)
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
