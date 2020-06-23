@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myfirstflutter/backends/google_sign_in.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myfirstflutter/pages/random_words.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -9,6 +12,49 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   String _search;
+
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser _user;
+  GoogleSignIn _googleSignIn = new GoogleSignIn();
+
+  Future<void> _signInWithGoogle() async {
+    print('Select google account');
+    GoogleSignInAccount _googleSignInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication _googleSignInAuthentication = await _googleSignInAccount.authentication;
+
+    AuthCredential _credential = GoogleAuthProvider.getCredential(
+        idToken: _googleSignInAuthentication.idToken,
+        accessToken: _googleSignInAuthentication.accessToken
+    );
+
+    AuthResult _result = (await _auth.signInWithCredential(_credential));
+    _user = _result.user;
+
+    _sendDataToDatabase(_user.uid);
+
+    setState(() {
+      print('You have been signed in');
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords(user: _user,)) , (Route<dynamic> route) => false);
+    });
+  }
+
+  void _sendDataToDatabase(String uid) {
+
+    final dbRef = FirebaseDatabase.instance.reference().child('/users-with-google/$uid');
+    print('Sending data user to database..');
+    dbRef.push().set(
+      {
+        'Fullname' : _user.displayName,
+        'Email' : _user.email,
+        'PhotoURL' : _user.photoUrl,
+        'UID' : _user.uid
+      },
+    ).then((db) {
+      print('Send to database success');
+      //Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic>  route) => false);
+    });
+    //
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +148,7 @@ class _WelcomeState extends State<Welcome> {
                 children: [
 
                   RaisedButton(
-                    onPressed: () => googleSignIn,
+                    onPressed: () => _signInWithGoogle(),
                     color: Colors.white,
                     elevation: 5,
                     shape: RoundedRectangleBorder(

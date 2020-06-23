@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myfirstflutter/backends/google_sign_in.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -19,6 +18,8 @@ class RegisterState extends State<Register> {
   TextEditingController email = new TextEditingController();
   TextEditingController pass = new TextEditingController();
   TextEditingController country = new TextEditingController();
+
+  FirebaseUser user;
 
   var data = <String, dynamic> {
     'Fullname' : _fullname.toString(),
@@ -249,7 +250,7 @@ class RegisterState extends State<Register> {
                     children: [
 
                       RaisedButton(
-                        onPressed: () => googleSignIn,
+                        onPressed: () {},
                         color: Colors.white,
                         elevation: 5,
                         shape: RoundedRectangleBorder(
@@ -331,8 +332,13 @@ class RegisterState extends State<Register> {
     dbCached.setPersistenceEnabled(true);
     dbCached.setPersistenceCacheSizeBytes(10000000);
 
-    final dbRef = FirebaseDatabase.instance.reference().child('/users/$uid');
-    dbRef.push().set(data).then((db) {
+    final dbRef = FirebaseDatabase.instance.reference().child('/users-with-email/$uid');
+    dbRef.push().set(
+        {
+          data : data,
+          'UID' : user.uid
+        }
+    ).then((db) {
       print('Send to database success');
       Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false);
     });
