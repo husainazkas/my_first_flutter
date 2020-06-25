@@ -18,6 +18,7 @@ class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[];
   final _saved = Set<WordPair>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -34,11 +35,17 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
+  Future<void> _account() async {
+    FirebaseUser user = await _auth.currentUser();
+    String dataUser = user.uid;
+    Text('$dataUser');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Startup Name Generator'),
+        title: Text('$_account'),
         actions: <Widget>[
           PopupMenuButton(
             onSelected: event,

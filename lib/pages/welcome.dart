@@ -10,15 +10,13 @@ class Welcome extends StatefulWidget {
 }
 
 class _WelcomeState extends State<Welcome> {
-  String _search;
 
-  FirebaseUser _user;
+  String _search;
   SignInWithGoogle signInWithGoogle = SignInWithGoogle();
 
   void _handleGoogleSignIn() {
-
     signInWithGoogle.signInWithGoogle().then(
-            (login) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords(user: _user,)), (Route<dynamic> route) => false)
+            (value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords()), (Route<dynamic> route) => false)
     );
   }
 

@@ -5,7 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class SignInWithGoogle {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
-  FirebaseUser _user;
+  FirebaseUser user;
   GoogleSignIn _googleSignIn = new GoogleSignIn();
 
   Future<void> signInWithGoogle() async {
@@ -18,24 +18,24 @@ class SignInWithGoogle {
         accessToken: _googleSignInAuthentication.accessToken
     );
 
-    AuthResult _result = (await _auth.signInWithCredential(_credential));
-    _user = _result.user;
+    AuthResult result = (await _auth.signInWithCredential(_credential));
+    user = result.user;
 
     print('You have been signed in');
-    _sendDataToDatabase();
+    _sendDataToDatabase(user.uid);
   }
 
-  void _sendDataToDatabase() {
+  void _sendDataToDatabase(String uid) {
 
-    final dbRef = FirebaseDatabase.instance.reference().child('/users/${_user.uid}');
+    final dbRef = FirebaseDatabase.instance.reference().child('/users/$uid');
     print('Sending data user to database..');
     try {
       dbRef.set(
         {
-          'Fullname' : _user.displayName,
-          'Email' : _user.email,
-          'PhotoURL' : _user.photoUrl,
-          'UID' : _user.uid,
+          'Fullname' : user.displayName,
+          'Email' : user.email,
+          'PhotoURL' : user.photoUrl,
+          'UID' : user.uid,
           'Username' : 'null',
           'Country' : 'null'
         },

@@ -26,9 +26,9 @@ class RegisterState extends State<Register> {
 
   void _handleGoogleSignIn() {
 
-    signInWithGoogle.signInWithGoogle().then(
+    /*signInWithGoogle.signInWithGoogle().then(
             (login) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords(user: _user,)), (Route<dynamic> route) => false)
-    );
+    );*/
   }
 
   Future<void> _registerProceed() async {
@@ -37,10 +37,11 @@ class RegisterState extends State<Register> {
       registerState.save();
       try {
         AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _pass);
+        FirebaseUser user = result.user;
         print('Account has been created.');
         print('Sending email verification..');
-        result.user.sendEmailVerification();
-        return _sendDataToDatabase(result.user.uid);
+        user.sendEmailVerification();
+        return _sendDataToDatabase(user);
       } catch (e) {
         print(e.message);
       }
@@ -49,7 +50,7 @@ class RegisterState extends State<Register> {
     }
   }
 
-  void _sendDataToDatabase(String uid) {
+  void _sendDataToDatabase(FirebaseUser uid) {
 
     final dbRef = FirebaseDatabase.instance.reference().child('/users/$uid');
     print('Sending data user to database..');
@@ -64,7 +65,7 @@ class RegisterState extends State<Register> {
         }
     ).then((db) {
       print('Send to database success');
-      Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords(user: uid,)), (Route<dynamic> route) => false);
     });
     //
   }
