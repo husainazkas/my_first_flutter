@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myfirstflutter/backends/google_sign_in.dart';
-import 'package:myfirstflutter/pages/random_words.dart';
 
 class Welcome extends StatefulWidget {
   @override
@@ -15,8 +13,9 @@ class _WelcomeState extends State<Welcome> {
   SignInWithGoogle signInWithGoogle = SignInWithGoogle();
 
   void _handleGoogleSignIn() {
+    print('Initializing google sign in');
     signInWithGoogle.signInWithGoogle().then(
-            (value) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords()), (Route<dynamic> route) => false)
+            (google) => Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false)
     );
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myfirstflutter/pages/welcome.dart';
+import 'file:///D:/AndroidStudioProjects/myfirstflutter/lib/pages/setup/welcome.dart';
 import 'package:myfirstflutter/pages/random_words.dart';
 import 'package:myfirstflutter/pages/setup/login.dart';
 import 'package:myfirstflutter/pages/setup/register.dart';

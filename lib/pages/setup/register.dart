@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstflutter/backends/register_by_email.dart';
 import 'package:myfirstflutter/backends/google_sign_in.dart';
 import 'package:myfirstflutter/pages/random_words.dart';
 
@@ -21,53 +20,35 @@ class RegisterState extends State<Register> {
   TextEditingController pass = new TextEditingController();
   TextEditingController country = new TextEditingController();
 
-  FirebaseUser _user;
   SignInWithGoogle signInWithGoogle = SignInWithGoogle();
+  SignInWithEmail signInWithEmail = SignInWithEmail();
 
   void _handleGoogleSignIn() {
-
-    /*signInWithGoogle.signInWithGoogle().then(
-            (login) => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords(user: _user,)), (Route<dynamic> route) => false)
-    );*/
+    print('Initializing google sign in');
+    signInWithGoogle.signInWithGoogle().then(
+            (google) => Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false)
+    );
   }
 
-  Future<void> _registerProceed() async {
+  void _handleEmailSignIn() {
+    print('Initializing email sign in');
+
     final registerState = _registerKey.currentState;
     if (registerState.validate()) {
       registerState.save();
       try {
-        AuthResult result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _pass);
-        FirebaseUser user = result.user;
-        print('Account has been created.');
-        print('Sending email verification..');
-        user.sendEmailVerification();
-        return _sendDataToDatabase(user);
+        signInWithEmail.registerProceed(_email, _pass).then(
+                (email) {
+              signInWithEmail.sendDataToDatabase(_email, _pass, _fullname, _username, _country);
+              Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false);
+            }
+        );
       } catch (e) {
         print(e.message);
       }
     } else {
-      print('Please re-check the form');
+      print('Please re-check form');
     }
-  }
-
-  void _sendDataToDatabase(FirebaseUser uid) {
-
-    final dbRef = FirebaseDatabase.instance.reference().child('/users/$uid');
-    print('Sending data user to database..');
-    dbRef.set(
-        {
-          'Fullname' : _fullname,
-          'Username' : _username,
-          'Email' : _email,
-          'Country' : _country,
-          'UID' : uid,
-          'PhotoURL' : 'null',
-        }
-    ).then((db) {
-      print('Send to database success');
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => RandomWords(user: uid,)), (Route<dynamic> route) => false);
-    });
-    //
   }
 
   @override
@@ -244,7 +225,7 @@ class RegisterState extends State<Register> {
                           splashColor: Colors.deepOrange,
                           color: Color.fromARGB(255, 238, 0, 0),
                           elevation: 5,
-                          onPressed: () => _registerProceed(),
+                          onPressed: () => _handleEmailSignIn(),
                           child: Center(
                             child: Text("SIGN UP", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white,)),
                           ),
