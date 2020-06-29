@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myfirstflutter/backends/facebook_sign_in.dart';
+import 'package:myfirstflutter/backends/google_sign_in.dart';
 import 'package:myfirstflutter/backends/popup_constants.dart';
 
 class RandomWords extends StatefulWidget {
@@ -100,16 +101,18 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
+
+
   void _signOut() {
-    GoogleSignIn _googleSignIn = GoogleSignIn();
+    SignInWithGoogle signInWithGoogle = SignInWithGoogle();
+    SignInWithFacebook signInWithFacebook = SignInWithFacebook();
     FirebaseAuth.instance.signOut().then(
             (value) {
               try {
-                if (_googleSignIn != null) {
-                  _googleSignIn.signOut();
-                  print('Signed out, going back to Main.');
-                  Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (Route<dynamic> route) => false);
-                }
+                signInWithGoogle.googleSignOut();
+                signInWithFacebook.facebookSignOut();
+                print('Signed out, going back to Main.');
+                Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (Route<dynamic> route) => false);
               } catch (e) {
                 print(e);
               }

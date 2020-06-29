@@ -43,4 +43,13 @@ class SignInWithGoogle {
       print(e.message);
     }
   }
+
+  Future<Null> googleSignOut() async {
+    if (_googleSignIn.currentUser != null) {
+      _googleSignIn.signOut();
+      print('Signed out.');
+    } else {
+      print('You already signed out.');
+    }
+  }
 }

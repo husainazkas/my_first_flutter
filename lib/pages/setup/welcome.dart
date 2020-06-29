@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myfirstflutter/backends/facebook_sign_in.dart';
 import 'package:myfirstflutter/backends/google_sign_in.dart';
 
 class Welcome extends StatefulWidget {
@@ -11,10 +12,18 @@ class _WelcomeState extends State<Welcome> {
 
   String _search;
   SignInWithGoogle signInWithGoogle = SignInWithGoogle();
+  SignInWithFacebook signInWithFacebook = SignInWithFacebook();
 
   void _handleGoogleSignIn() {
     print('Initializing google sign in');
     signInWithGoogle.signInWithGoogle().then(
+            (google) => Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false)
+    );
+  }
+
+  void _handleFacebookSignIn() {
+    print('Initializing facebook sign in');
+    signInWithFacebook.signInWithFacebook().then(
             (google) => Navigator.pushNamedAndRemoveUntil(context, '/random-words', (Route<dynamic> route) => false)
     );
   }
@@ -111,7 +120,7 @@ class _WelcomeState extends State<Welcome> {
                 children: [
 
                   RaisedButton(
-                    onPressed: () => _handleGoogleSignIn(), //signInWithGoogle.signInWithGoogle,
+                    onPressed: () => _handleGoogleSignIn(),
                     color: Colors.white,
                     elevation: 5,
                     shape: RoundedRectangleBorder(
@@ -128,7 +137,7 @@ class _WelcomeState extends State<Welcome> {
                   ),
 
                   RaisedButton(
-                    onPressed: () {},
+                    onPressed: () => _handleFacebookSignIn(),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(18))
                     ),
